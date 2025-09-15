@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/easygocontact.css' %}">
+{% endblock %}
+{% block content %}
+<section class="contact-page">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>Have questions? Reach out to EASY GO EXPRESS — we're here for you!</p>
+            <form>
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

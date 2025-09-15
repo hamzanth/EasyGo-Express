@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/easygoexpress.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="track-section">
+            <h3>Track and Trace</h3>
+            <form action="{% url 'courier:track' %}" method="POST" class="track-form">
+                {% csrf_token %}
+                <input type="text" name="tracking-number" placeholder="Enter Tracking ID" required>
+                <button type="submit">Track</button>
+            </form>
+        </div>
+
+        <div class="hero-content">
+            <h2>Your Ultimate Guide To Seamless <span>Logistics</span> Operations</h2>
+            <p>Providing reliable delivery services across land and sea with efficiency and professionalism.</p>
+        </div>
+
+        <div class="hero-image">
+            <img src="{% static 'imgs/clsfoterimg.jpg' %}" alt="IMAGE NOT FOUND">
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="services">
+    <div class="container">
+        <div class="service-card">
+            <h3>Land Freight</h3>
+            <p>Fast and secure land freight services tailored to your needs.</p>
+            <a href="/read1" class="read-more">Read More</a>
+        </div>
+        <div class="service-card">
+            <h3>Sea Freight</h3>
+            <p>Reliable sea freight solutions with guaranteed safety.</p>
+            <a href="/read2" class="read-more">Read More</a>
+        </div>
+    </div>
+</section>
+
+<!-- About Us Section -->
+<section class="about-us">
+  <div class="container about-container">
+    <div class="about-image">
+      <img src="{% static 'imgs/EASYGOHERO.jpg' %}" alt="EasyGoExpress - About Us">
+    </div>
+    <div class="about-content">
+      <h2>Reliable Logistics Tailored for You</h2>
+      <p>At EasyGoExpress, we simplify cargo and freight delivery by blending technology, expertise, and a customer-first mindset. Whether it's land or sea, your goods are in trusted hands.</p>
+      <a href="/about-us" class="about-btn">Learn More</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

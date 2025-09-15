@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EAZYGOEXPRESS</title>
+    {% block style %}
+    {% endblock %}
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+     <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+
+</head>
+<body>
+  <!-- Header -->
+<header class="site-header">
+  <div class="header-container">
+    <a href="{% url 'home' %}" class="logo">
+      <img src="{% static 'imgs/mflogo.jpg' %}" alt="EasyGoExpress Logo">
+    </a>
+    <div class="mobile-menu-icon">
+      <i class="fas fa-bars"></i>
+    </div>
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about-us' %}">About Us</a></li>
+        <li><a href="{% url 'services' %}">Services</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+        <li><a href="{% url 'blog' %}">Blog</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+{% block content %}
+{% endblock %}
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h4>Shipping Service</h4>
+      <ul>
+        <li><a href="easygoconditions.html">Conditions</a></li>
+        <!-- <li><a href="easygorates.html">Rates and Services</a></li> -->
+        <li><a href="easygotrack.html">Track Your Shipment</a></li>
+        <li><a href="easygodelivery.html">Delivery Methods</a></li>
+        <li><a href="easygopayment.html">Payment Methods</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <!-- <h4>My Account</h4>
+      <p>Sign up for free to get your account.</p>
+      <a href="easygologsign.html" class="signup-link-btn">Sign Up</a> -->
+
+      <div class="social-icons">
+        <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://instagram.com"><i class="fab fa-instagram"></i></a>
+        <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 EasyGoExpress. All rights reserved. Website by El Patron De Por Vida</p>
+  </div>
+</footer>
+    
+     <!-- Header / Navigation -->
+
+     <!-- <script src="all.js"></script>
+
+     <script>
+  const menuIcon = document.querySelector('.mobile-menu-icon');
+  const navMenu = document.querySelector('.nav-menu');
+
+  menuIcon.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+  });
+
+</script> -->
+<script src="{% static 'js/all.min.js' %}"></script>
+      <script>
+          const menuIcon = document.querySelector('.mobile-menu-icon');
+          const navMenu = document.querySelector('.nav-menu');
+
+          menuIcon.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+          });
+       </script>
+        <script src="all.js"></script>
+  {% block script %}
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/read.css' %}">
+{% endblock %}
+{% block content %}
+<main class="content">
+        <section class="page-header">
+            <h1>Sea Freight Services</h1>
+            <p>Secure, cost-effective shipping across the globe.</p>
+        </section>
+
+        <section class="service-details">
+            <h2>What We Offer</h2>
+            <ul>
+                <li>FCL and LCL shipping options</li>
+                <li>Port-to-port and door-to-door services</li>
+                <li>Customs clearance assistance</li>
+                <li>Global coverage with trusted partners</li>
+            </ul>
+
+            <h2>Why Choose Our Sea Freight?</h2>
+            <p>EasyGoExpress ensures that your cargo is handled with the highest care. Our sea freight solutions are perfect for bulk goods, international shipments, and businesses that prioritize cost-effective logistics with long-term planning.</p>
+        </section>
+    </main>
+{% endblock %}

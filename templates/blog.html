@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/easygoblog.css' %}">
+{% endblock %}
+{% block content %}
+<section class="blog-page">
+        <div class="container">
+            <h2>Our Blog</h2>
+            <p>Stay updated with insights, logistics tips, and industry news from EASY GO EXPRESS.</p>
+            <ul>
+                <li><a href="#">How to Choose the Right Delivery Partner</a></li>
+                <li><a href="#">5 Reasons Logistics Companies Fail (And How We Don't)</a></li>
+                <li><a href="#">The Future of Freight Services</a></li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/tracking.css' %}">
+{% endblock %}
+{% block content %}
+    {% if order != none %}
+            {% if order == "not valid" %}
+                <p class="text-center text-xl text-green-700 mt-28">The tracking number is not valid</p>
+                <div class="mb-60" style="margin-bottom: 40vh;"></div>
+            {% else %}
+                <h3 class="text-center text-2xl text-gray-700 my-20 font-semibold">This is your shipment details</h3>
+                <div class="w-[95%] md:w-[70%] mx-auto">
+                    <table class="w-full">
+                        <tr>
+                            <td>
+                                <h3 class="text-2xl font-semibold">Tracking number</h3>
+                            </td>
+                            <td>
+                                <h3 class="text-xl tracking-widest">{{ order.tracking_number }}</h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="my-6">
+                        <h4 class="bg-blue-500 text-white text-2xl p-5 font-semibold">Sender Details</h4>
+                        <table class="w-full">
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-semibold text-lg">Name</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-xl">{{ order.sender.name }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-semibold text-lg">Number</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-xl">{{ order.sender.phone_number }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-semibold text-lg">Email</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-xl">{{ order.sender.email }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-semibold text-lg">Address</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-xl">{{ order.sender.address }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h4 class="bg-blue-500 text-white text-2xl p-5 font-semibold">Reciever Details</h4>
+                        <table class="w-full">
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Name</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-lg">{{ order.reciever.name }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Number</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-lg">{{ order.reciever.phone_number }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Email</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-lg">{{ order.reciever.email }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Address</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-lg">{{ order.reciever.address }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="my-6">
+                        <h4 class="bg-blue-500 text-white text-2xl p-5 font-semibold">More Details</h4>
+                        <table class="w-full">
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Status</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-lg">{{ order.get_status_display }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Delivery Amount</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-lg">USD {{ order.price }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Shipment Date</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-lg">{{ order.shipment_date }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Estimated Delivery Date</p>
+                                </td>
+                                <td class="p-5">
+                                    <p class="text-lg">{{ order.delivery_date }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <p class="font-bold text-lg">Current Location</p>
+                                </td class="p-5">
+                                <td class="p-5">
+                                    <marquee behavior="" direction="left">
+                                        <p class="text-2xl">{{ order.get_current_location.location_name }}</p>
+                                    </marquee>
+                                    <!-- <p style="font-weight: bold">{{ order.get_current_location }}</p> -->
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="my-6">
+                            <div class="flex justify-between bg-blue-500 text-white text-xl p-5 font-semibold cursor-pointer dpbutton">
+                                <h4>Pick-up Address Information</h4>
+                                <p class="font-bold text-3xl">+</p>
+                            </div>
+                            <div class="dpdown">
+                                <table class="w-full">
+                                    <tr>
+                                        <td class="p-5">
+                                            <p class="font-bold text-lg">Street Address</p>
+                                        </td>
+                                        <td class="p-5">
+                                            <p class="text-lg">{{ order.pickup_address.street_address }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-5">
+                                            <p class="font-bold text-lg">Apartment Address</p>
+                                        </td>
+                                        <td class="p-5">
+                                            <p class="text-lg">{{ order.pickup_address.apartment_address }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-5">
+                                            <p class="font-bold text-lg">Country</p>
+                                        </td>
+                                        <td class="p-5">
+                                            <p class="text-lg">{{ order.pickup_address.country }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-5">
+                                            <p class="font-bold text-lg">Zip Code</p>
+                                        </td>
+                                        <td class="p-5">
+                                            <p class="text-lg">{{ order.pickup_address.zip }}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between bg-blue-500 text-white text-xl p-5 font-semibold dpbutton">
+                                <h4 style="padding: 0; font-weight: normal;">Delivery Address Information</h4>
+                                <p class="font-bold text-3xl">+</p>
+                            </div>
+                            <div class="dpdown">
+                                <table class="w-full">
+                                    <tr>
+                                        <td class="p-5">
+                                            <p class="font-bold text-lg">Street Address</p>
+                                        </td>
+                                        <td class="p-5">
+                                            <p class="text-lg">{{ order.delivery_address.street_address }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-5">
+                                            <p class="font-bold text-lg">Apartment Address</p>
+                                        </td>
+                                        <td class="p-5">
+                                            <p class="text-lg">{{ order.delivery_address.apartment_address }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-5">
+                                            <p class="font-bold text-lg">Country</p>
+                                        </td>
+                                        <td class="p-5">
+                                            <p class="text-lg">{{ order.delivery_address.country }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-5">
+                                            <p class="font-bold text-lg">Zip Code</p>
+                                        </td>
+                                        <td class="p-5">
+                                            <p class="text-lg">{{ order.delivery_address.zip }}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="mt-20 mapsection">
+                            <h3 class="text-gray-600 text-xl font-semibold mb-6">See current Location on the map </h3>
+                            <div id="map" style="height: 500px; width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+{% endblock %}
+{% block script %}
+<!-- <script src="{% static 'js/track.js' %}"></script> -->
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCk_9UhZfgEfs1mQu0Trz_CxWO6luEbDg&callback=initMap&v=weekly&libraries=marker"></script>
+ -->
+
+ <script>
+    const latitude = "{{order.get_current_location.latitude|escapejs}}"
+    const longitude = "{{order.get_current_location.longitude|escapejs}}"
+    const locationName = "{{order.get_current_location.location_name|escapejs}}"
+    nlat = Number(latitude)
+    nlong = Number(longitude)
+    console.log(Number(latitude))
+    console.log(Number(longitude))
+
+    function initMap(){
+        let coords = {lat: nlat, lng: nlong}
+        let map = new google.maps.Map(document.getElementById("map"), {zoom: 4, center: coords})
+        let marker = new google.maps.Marker({position: coords, map: map, title: locationName})
+        let visible = false
+        function changeVis(){
+            // marker.setVisible(visible)
+            visible = !visible
+            setTimeout(() => {
+                marker.setVisible(visible)
+                changeVis()
+            }, 900)
+        }
+        changeVis()
+        // function startBlinking(){
+        //     let visible = true;
+        //     setInterval(() => {
+        //         visible = !visible
+        //         marker.setVisible(visible);
+        //     }, 1000)
+        // } 
+        // startBlinking()
+    }
+    let infoWindow = new google.maps.infoWindow({
+        content: "<h3>New York City</h3><p>This is NYC!</p>"
+    })
+    marker.addEventListener("click", () => {
+        console.log("this the info window")
+        infoWindow.open(map, marker)
+    })
+ </script>
+
+ <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCk_9UhZfgEfs1mQu0Trz_CxWO6luEbDg&callback=initMap"></script>
+ {% endblock %}

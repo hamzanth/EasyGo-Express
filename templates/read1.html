@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/read.css' %}">
+{% endblock %}
+{% block content %}
+
+<main class="content">
+        <section class="page-header">
+            <h1>Land Freight Services</h1>
+            <p>Efficient and dependable transportation via road networks.</p>
+        </section>
+
+        <section class="service-details">
+            <h2>What We Offer</h2>
+            <ul>
+                <li>Nationwide and regional delivery</li>
+                <li>Tracking and real-time updates</li>
+                <li>Dedicated fleet and professional drivers</li>
+                <li>Custom solutions for businesses</li>
+            </ul>
+
+            <h2>Why Choose Our Land Freight?</h2>
+            <p>With our extensive network and commitment to speed and safety, EasyGoExpress ensures timely deliveries with minimal delays and maximum security. Perfect for businesses requiring rapid movement of goods across short to medium distances.</p>
+        </section>
+    </main>
+
+{% endblock %}
