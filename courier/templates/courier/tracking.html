@@ -4,6 +4,18 @@
     <link rel="stylesheet" href="{% static 'css/tracking.css' %}">
 {% endblock %}
 {% block content %}
+
+    <main class="page-content">
+    <section class="track-section">
+      <h3>Track and Trace</h3>
+      <form class="track-form" method="POST">
+        {% csrf_token %}
+        <input type="text" name="tracking-number" placeholder="Enter Tracking ID" required />
+        <button type="submit">Track</button>
+      </form>
+    </section>
+  </main>
+
     {% if order != none %}
             {% if order == "not valid" %}
                 <p class="text-center text-xl text-green-700 mt-28">The tracking number is not valid</p>

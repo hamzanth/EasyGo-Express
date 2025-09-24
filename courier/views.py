@@ -101,11 +101,16 @@ class OrderNow(View):
 
 class Payment(View):
 	def get(self, request):
-		return render(request, "shipping/payment.html")
+		return render(request, "courier/payment.html")
 	
-	def post(self, request):
-		print(request.POST)
-		return redirect("shipping:payment")
+class Condition(View):
+	def get(self, request):
+		return render(request, "courier/condition.html")
+	
+class Delivery(View):
+	def get(self, request):
+		return render(request, "courier/delivery.html")
+	
 
 class Track(View):
 	def get(self, request):

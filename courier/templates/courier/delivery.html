@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/delivery.css' %}">
+{% endblock %}
+{% block content %}
+
+    <main class="page-content">
+    <section class="delivery-section">
+      <h2>Our Delivery Methods</h2>
+      <p>Flexible and efficient delivery options tailored to meet your cargo needs.</p>
+
+      <div class="delivery-cards">
+        <div class="delivery-card">
+          <i style="font-size: 25; color: dodgerblue;" class="fas fa-truck"></i>
+          <h3>Land Freight</h3>
+          <p>Reliable and cost-effective road transport for regional and national cargo deliveries.</p>
+        </div>
+
+        <div class="delivery-card">
+          <i style="font-size: 25; color: dodgerblue;" class="fas fa-ship"></i>
+          <h3>Sea Freight</h3>
+          <p>Ideal for large and international shipments. Affordable rates for long-distance shipping.</p>
+        </div>
+
+        <div class="delivery-card">
+          <i style="font-size: 25; color: dodgerblue;" class="fas fa-plane-departure"></i>
+          <h3>Air Express</h3>
+          <p>Fastest delivery solution for urgent packages. Domestic and international options available.</p>
+        </div>
+
+        <div class="delivery-card">
+          <i style="font-size: 25; color: dodgerblue;" class="fas fa-clock"></i>
+          <h3>Same-Day Delivery</h3>
+          <p>Local deliveries within 24 hours. Perfect for urgent documents or small parcels.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+{% endblock %}

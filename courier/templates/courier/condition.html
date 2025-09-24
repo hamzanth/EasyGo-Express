@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/condition.css' %}">
+{% endblock %}
+{% block content %}
+
+    <main class="page-content">
+    <section class="conditions-section">
+      <h2>Shipping Terms & Conditions</h2>
+
+      <p>At EasyGoExpress, we strive to make your shipping process as smooth and reliable as possible. Below are our key terms and conditions regarding logistics and delivery:</p>
+
+      <ul>
+        <li><strong>Shipping Time:</strong> Delivery timelines vary based on destination and method chosen. Estimated delivery times will be provided at checkout.</li>
+        <li><strong>Package Handling:</strong> All packages are handled with care. EasyGoExpress is not responsible for damages caused by improper packaging from the sender.</li>
+        <li><strong>Prohibited Items:</strong> Items such as weapons, illegal substances, and perishable goods are not allowed.</li>
+        <li><strong>Liability:</strong> EasyGoExpress assumes limited liability for lost or damaged goods, depending on the declared value and shipping insurance selected.</li>
+        <li><strong>Customs & Duties:</strong> The customer is responsible for any applicable customs charges in the destination country.</li>
+        <li><strong>Cancellation:</strong> Shipments can only be cancelled before dispatch. Fees may apply depending on the stage of processing.</li>
+      </ul>
+
+      <p>If you have questions or need further clarification, feel free to <a href="{% url 'contact' %}" style="color:#007bff;">contact our support team</a>.</p>
+    </section>
+  </main>
+
+{% endblock %}

@@ -39,11 +39,11 @@
     <div class="footer-column">
       <h4>Shipping Service</h4>
       <ul>
-        <li><a href="easygoconditions.html">Conditions</a></li>
+        <li><a href="{% url 'courier:condition' %}">Conditions</a></li>
         <!-- <li><a href="easygorates.html">Rates and Services</a></li> -->
-        <li><a href="easygotrack.html">Track Your Shipment</a></li>
-        <li><a href="easygodelivery.html">Delivery Methods</a></li>
-        <li><a href="easygopayment.html">Payment Methods</a></li>
+        <li><a href="{% url 'courier:track' %}">Track Your Shipment</a></li>
+        <li><a href="{% url 'courier:delivery' %}">Delivery Methods</a></li>
+        <li><a href="{% url 'courier:payment' %}">Payment Methods</a></li>
       </ul>
     </div>
     <div class="footer-column">

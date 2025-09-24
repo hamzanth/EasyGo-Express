@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/payment.css' %}">
+{% endblock %}
+{% block content %}
+
+    <main class="page-content">
+    <section class="payment-section">
+      <h2>Accepted Payment Methods</h2>
+      <p>We provide flexible and secure payment options to make your shipping experience smooth and stress-free. Below are the available payment methods accepted on EasyGoExpress:</p>
+
+      <div class="payment-methods">
+        <div class="method">
+          <i style="font-size: 25; color: dodgerblue;" class="fas fa-credit-card"></i>
+          <h4>Credit / Debit Cards</h4>
+          <p>We accept major cards including Visa, MasterCard, and Verve.</p>
+        </div>
+        <div class="method">
+          <i style="font-size: 25; color: dodgerblue;" class="fas fa-university"></i>
+          <h4>Bank Transfer</h4>
+          <p>Pay directly into our company bank account. Details will be shared at checkout.</p>
+        </div>
+        <div class="method">
+          <i style="font-size: 25; color: dodgerblue;" class="fab fa-paypal"></i>
+          <h4>PayPal</h4>
+          <p>Use your PayPal account for secure international transactions.</p>
+        </div>
+        <div class="method">
+          <i style="font-size: 25; color: dodgerblue;" class="fas fa-mobile-alt"></i>
+          <h4>Mobile Payment</h4>
+          <p>We support mobile money and USSD options for select countries.</p>
+        </div>
+      </div>
+
+      <p style="margin-top: 30px;">Need help with payments? <a href="{% url 'contact' %}" style="color:#007bff;">Contact us</a> and our support team will assist you.</p>
+    </section>
+  </main>
+
+{% endblock %}
