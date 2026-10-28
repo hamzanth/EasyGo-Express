@@ -903,13 +903,7 @@
         return;
       }
 
-      error.classList.add('hidden');
-      document.getElementById('result-number').textContent = trackingNumber;
-      result.classList.remove('hidden');
-
-
-      document.getElementById("shipment-location-text").textContent =
-      "Latest known location: Abuja, Nigeria";
+      
 
       fetch(`/api/shipments/${encodeURIComponent(trackingNumber)}/`)
         .then(response => {
@@ -920,6 +914,14 @@
             return response.json();
         })
         .then(data => {
+
+            error.classList.add('hidden');
+            document.getElementById('result-number').textContent = trackingNumber;
+            result.classList.remove('hidden');
+
+
+            document.getElementById("shipment-location-text").textContent =
+            "Latest known location: Abuja, Nigeria";
 
             initializeShipmentMap(9.0765, 7.3986);
             result.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1287,6 +1289,14 @@
     .forEach(function (link) {
         link.addEventListener("click", closeMobileSidebar);
     });
+
+    const mobileQuoteLink = document.querySelector(
+    "#mobile-sidebar a[href='#quote']"
+    );
+
+    if (mobileQuoteLink) {
+    mobileQuoteLink.addEventListener("click", closeMobileSidebar);
+    }
 
   </script>
 
