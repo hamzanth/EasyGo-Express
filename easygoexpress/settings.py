@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#$t!a^xb1)ae%l7$oqw=)4&y0m8o8d4q*cc6fi05+%b$zor+rc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'courier',
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,21 @@ STATIC_ROOT = BASE_DIR / "static"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+GOOGLE_MAPS_API_KEY = "AIzaSyDopXEBey8uu95SLb1Mc3v3blayMAqsetM"
+GEOAPIFY_API_KEY = "eeec958901e54200bea7a6cf5d63dc2a"
+
+
+# CONTACT_EMAIL="your_email@example.com"
+# DEFAULT_FROM_EMAIL="EasyGo Express <no-reply@yourdomain.com>"
+
+# # For local development only
+# EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
+
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER="irekpitaanthony10@gmail.com"
+EMAIL_HOST_PASSWORD="jxvvvbpeosbqrvdf"
+CONTACT_EMAIL="irekpitaanthony10@gmail.com"
+DEFAULT_FROM_EMAIL="EasyGo Express <irekpitaanthony10@gmail.com>"

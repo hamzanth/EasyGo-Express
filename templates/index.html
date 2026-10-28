@@ -1,60 +1,1067 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block style %}
-<link rel="stylesheet" href="{% static 'css/easygoexpress.css' %}">
-{% endblock %}
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SwiftDrop — Fast & Reliable Courier Delivery</title>
+  <meta name="description" content="SwiftDrop delivers parcels, documents, and freight quickly and securely across cities and nationwide." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef6ff',
+              100: '#d9ebff',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              900: '#172554'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
 
-{% block content %}
-<!-- Hero Section -->
-<section class="hero">
-    <div class="container">
-        <div class="track-section">
-            <h3>Track and Trace</h3>
-            <form action="{% url 'courier:track' %}" method="POST" class="track-form">
-                {% csrf_token %}
-                <input type="text" name="tracking-number" placeholder="Enter Tracking ID" required>
-                <button type="submit">Track</button>
-            </form>
-        </div>
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <a href="#" class="flex items-center gap-2">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <span class="text-xl font-extrabold tracking-tight text-slate-900">EasyGo Express</span>
+      </a>
 
-        <div class="hero-content">
-            <h2>Your Ultimate Guide To Seamless <span>Logistics</span> Operations</h2>
-            <p>Providing reliable delivery services across land and sea with efficiency and professionalism.</p>
-        </div>
+      <nav class="hidden items-center gap-8 md:flex">
+        <a href="#services" class="text-sm font-medium text-slate-600 transition hover:text-brand-600">Services</a>
+        <a href="#how-it-works" class="text-sm font-medium text-slate-600 transition hover:text-brand-600">How it works</a>
+        <a href="#pricing" class="text-sm font-medium text-slate-600 transition hover:text-brand-600">Pricing</a>
+        <a href="#tracking" class="text-sm font-medium text-slate-600 transition hover:text-brand-600">Track</a>
+        <a href="#contact" class="text-sm font-medium text-slate-600 transition hover:text-brand-600">Contact</a>
+        {% if user.is_superuser %}
+            <a href="/location/coordinates" class="text-sm font-medium text-slate-600 transition hover:text-brand-600">location</a>
+            <a href="/admin" class="text-sm font-medium text-slate-600 transition hover:text-brand-600">admin</a>
+        {% endif %}
+      </nav>
 
-        <div class="hero-image">
-            <img src="{% static 'imgs/clsfoterimg.jpg' %}" alt="IMAGE NOT FOUND">
-        </div>
+      <div class="flex items-center gap-3">
+        <a href="#tracking" class="hidden rounded-lg px-4 py-2 text-sm font-semibold text-brand-600 transition hover:bg-brand-50 sm:block">
+          Track parcel
+        </a>
+        <a href="#quote" class="rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700">
+          Get a quote
+        </a>
+      </div>
     </div>
-</section>
+  </header>
 
-<!-- Services Section -->
-<section class="services">
-    <div class="container">
-        <div class="service-card">
-            <h3>Land Freight</h3>
-            <p>Fast and secure land freight services tailored to your needs.</p>
-            <a href="/read1" class="read-more">Read More</a>
-        </div>
-        <div class="service-card">
-            <h3>Sea Freight</h3>
-            <p>Reliable sea freight solutions with guaranteed safety.</p>
-            <a href="/read2" class="read-more">Read More</a>
-        </div>
-    </div>
-</section>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-white">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-50 via-white to-slate-100"></div>
+    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50 px-4 py-1.5 text-sm font-semibold text-brand-700">
+          <span class="h-2 w-2 rounded-full bg-brand-500"></span>
+          Same-day delivery available
+        </span>
 
-<!-- About Us Section -->
-<section class="about-us">
-  <div class="container about-container">
-    <div class="about-image">
-      <img src="{% static 'imgs/EASYGOHERO.jpg' %}" alt="EasyGoExpress - About Us">
+        <h1 class="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+          Deliver anything, <span class="text-brand-600">anywhere</span> — fast and secure.
+        </h1>
+
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
+          SwiftDrop moves parcels, documents, and business shipments across cities with real-time tracking, insured delivery, and reliable pickup scheduling.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="#quote" class="rounded-xl bg-brand-600 px-7 py-4 text-center text-base font-semibold text-white shadow-lg shadow-brand-600/20 transition hover:bg-brand-700">
+            Book a delivery
+          </a>
+          <a href="#services" class="rounded-xl border border-slate-300 bg-white px-7 py-4 text-center text-base font-semibold text-slate-800 transition hover:border-brand-500 hover:text-brand-600">
+            Explore services
+          </a>
+        </div>
+
+        <div class="mt-10 grid max-w-lg grid-cols-3 gap-6">
+          <div>
+            <p class="text-2xl font-extrabold text-slate-900">98.7%</p>
+            <p class="text-sm text-slate-500">On-time rate</p>
+          </div>
+          <div>
+            <p class="text-2xl font-extrabold text-slate-900">120+</p>
+            <p class="text-sm text-slate-500">Delivery routes</p>
+          </div>
+          <div>
+            <p class="text-2xl font-extrabold text-slate-900">24/7</p>
+            <p class="text-sm text-slate-500">Customer support</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -right-10 -top-10 h-64 w-64 rounded-full bg-brand-100 blur-3xl"></div>
+        <div class="relative rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-slate-500">Shipment</p>
+              <p class="text-lg font-bold text-slate-900">#SWD-482910</p>
+            </div>
+            <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">In transit</span>
+          </div>
+
+          <div class="mt-6 space-y-5">
+            <div class="flex items-start gap-4">
+              <span class="mt-1 h-3 w-3 rounded-full bg-brand-600"></span>
+              <div>
+                <p class="font-semibold text-slate-900">Picked up</p>
+                <p class="text-sm text-slate-500">Windsor, ON N9A 1H9, Canada — 10:24 AM</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="mt-1 h-3 w-3 rounded-full bg-brand-600"></span>
+              <div>
+                <p class="font-semibold text-slate-900">Arrived at sorting hub</p>
+                <p class="text-sm text-slate-500">Central Hub, Germany — 12:05 PM</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="mt-1 h-3 w-3 animate-pulse rounded-full bg-amber-500"></span>
+              <div>
+                <p class="font-semibold text-slate-900">Out for delivery</p>
+                <p class="text-sm text-slate-500">Estimated arrival: 3:40 PM</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-2xl bg-slate-50 p-4">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-medium text-slate-600">Delivery progress</span>
+              <span class="font-bold text-brand-600">75%</span>
+            </div>
+            <div class="mt-2 h-2 w-full rounded-full bg-slate-200">
+              <div class="h-2 w-3/4 rounded-full bg-brand-600"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="about-content">
-      <h2>Reliable Logistics Tailored for You</h2>
-      <p>At EasyGoExpress, we simplify cargo and freight delivery by blending technology, expertise, and a customer-first mindset. Whether it's land or sea, your goods are in trusted hands.</p>
-      <a href="/about-us" class="about-btn">Learn More</a>
+  </section>
+
+  <!-- Tracking -->
+  <section id="tracking" class="bg-brand-900 py-16">
+    <div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-extrabold text-white sm:text-4xl">Track your shipment</h2>
+      <p class="mt-3 text-brand-100">Enter your tracking number to see the latest delivery status.</p>
+
+      <form id="tracking-form" class="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
+        <input id="tracking-input" type="text" placeholder="Enter tracking number, e.g. SWD-482910"
+          class="w-full rounded-xl border border-white/20 bg-white/10 px-5 py-4 text-white placeholder-brand-100 outline-none focus:border-white focus:ring-2 focus:ring-white/30" />
+        <button type="submit" class="rounded-xl bg-white px-7 py-4 font-semibold text-brand-700 hover:bg-brand-50">Track</button>
+      </form>
+
+      <p id="tracking-error" class="mx-auto mt-4 hidden max-w-xl rounded-xl bg-red-500/20 px-4 py-3 text-sm font-medium text-red-100">
+        Please enter a valid tracking number, for example SWD-482910.
+      </p>
+
+      <div id="tracking-result" class="mx-auto mt-10 hidden max-w-3xl rounded-3xl bg-white p-6 text-left shadow-2xl sm:p-8">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm text-slate-500">Tracking number</p>
+            <p id="result-number" class="text-xl font-extrabold text-slate-900">SWD-482910</p>
+          </div>
+          <span id="result-status" class="w-fit rounded-full bg-amber-100 px-4 py-1.5 text-sm font-bold text-amber-700">Out for delivery</span>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-3">
+          <div class="rounded-2xl bg-slate-50 p-4">
+            <p class="text-xs font-semibold uppercase text-slate-500">Sender</p>
+            <p id="result-sender" class="mt-1 font-semibold text-slate-900">Wuse II, Abuja</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 p-4">
+            <p class="text-xs font-semibold uppercase text-slate-500">Destination</p>
+            <p id="result-destination" class="mt-1 font-semibold text-slate-900">Ikeja, Lagos</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 p-4">
+            <p class="text-xs font-semibold uppercase text-slate-500">Estimated arrival</p>
+            <p id="result-eta" class="mt-1 font-semibold text-slate-900">Today, 3:40 PM</p>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <div class="flex items-center justify-between text-sm">
+            <span class="font-medium text-slate-600">Delivery progress</span>
+            <span id="result-progress-text" class="font-bold text-brand-600">75%</span>
+          </div>
+          <div class="mt-2 h-2 w-full rounded-full bg-slate-200">
+            <div id="result-progress-bar" class="h-2 w-3/4 rounded-full bg-brand-600"></div>
+          </div>
+        </div>
+
+        <div id="result-timeline" class="mt-8 space-y-5"></div>
+
+        <!-- <div class="mt-8 space-y-5">
+          <div class="flex items-start gap-4">
+            <span class="mt-1 h-3 w-3 rounded-full bg-emerald-500"></span>
+            <div><p class="font-semibold text-slate-900">Parcel picked up</p><p class="text-sm text-slate-500">Wuse II, Abuja — Today, 10:24 AM</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="mt-1 h-3 w-3 rounded-full bg-emerald-500"></span>
+            <div><p class="font-semibold text-slate-900">Arrived at sorting hub</p><p class="text-sm text-slate-500">Abuja Central Hub — Today, 12:05 PM</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="mt-1 h-3 w-3 rounded-full bg-brand-600"></span>
+            <div><p class="font-semibold text-slate-900">Out for delivery</p><p class="text-sm text-slate-500">Courier en route — Today, 2:10 PM</p></div>
+          </div>
+          <div class="flex items-start gap-4 opacity-50">
+            <span class="mt-1 h-3 w-3 rounded-full bg-slate-300"></span>
+            <div><p class="font-semibold text-slate-900">Delivered</p><p class="text-sm text-slate-500">Pending arrival</p></div>
+          </div>
+        </div> -->
+
+        <div class="mt-8">
+            <p class="text-sm font-semibold text-slate-700">
+                Current shipment location
+            </p>
+
+            <div
+                id="shipment-map"
+                class="mt-3 h-72 w-full rounded-2xl border border-slate-200"
+            ></div>
+
+            <p
+                id="shipment-location-text"
+                class="mt-3 text-sm text-slate-600"
+            >
+                Location updates are provided by EasyGo Express.
+            </p>
+        </div>
+
+
+        <button id="close-tracking" class="mt-8 w-full rounded-xl border border-slate-300 px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50">Close</button>
+      </div>
     </div>
-  </div>
-</section>
-{% endblock %}
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-bold uppercase tracking-widest text-brand-600">Our services</p>
+        <h2 class="mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">Delivery solutions for every need</h2>
+        <p class="mt-4 text-slate-600">From urgent documents to bulk business shipments, we have a courier option that fits your schedule and budget.</p>
+      </div>
+
+      <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-8 transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold text-slate-900">Same-day delivery</h3>
+          <p class="mt-3 text-slate-600">Send urgent parcels within your city and get them delivered within hours.</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-8 transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M3 7h18M3 12h18M3 17h18" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold text-slate-900">Interstate shipping</h3>
+          <p class="mt-3 text-slate-600">Reliable nationwide delivery with scheduled pickups and delivery confirmation.</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-8 transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M20 7l-8-4-8 4v10l8 4 8-4V7z" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold text-slate-900">Business logistics</h3>
+          <p class="mt-3 text-slate-600">Bulk dispatch, e-commerce fulfillment, and recurring pickup plans for businesses.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">How EasyGo Express works</h2>
+        <p class="mt-4 text-slate-600">Three simple steps from pickup to delivery.</p>
+      </div>
+
+      <div class="mt-14 grid gap-8 md:grid-cols-3">
+        <div class="text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-600 text-xl font-extrabold text-white">1</div>
+          <h3 class="mt-5 text-xl font-bold text-slate-900">Request pickup</h3>
+          <p class="mt-3 text-slate-600">Enter pickup and delivery addresses, choose a service, and schedule a pickup time.</p>
+        </div>
+        <div class="text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-600 text-xl font-extrabold text-white">2</div>
+          <h3 class="mt-5 text-xl font-bold text-slate-900">We collect your parcel</h3>
+          <p class="mt-3 text-slate-600">A verified courier arrives, scans your package, and begins the delivery journey.</p>
+        </div>
+        <div class="text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-600 text-xl font-extrabold text-white">3</div>
+          <h3 class="mt-5 text-xl font-bold text-slate-900">Track until delivery</h3>
+          <p class="mt-3 text-slate-600">Follow every update in real time and receive confirmation when the parcel arrives.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Simple pricing</h2>
+        <p class="mt-4 text-slate-600">Transparent rates with no hidden charges.</p>
+      </div>
+
+      <div class="mt-14 grid gap-8 lg:grid-cols-3">
+        <div class="rounded-3xl border border-slate-200 bg-white p-8">
+          <h3 class="text-lg font-bold text-slate-900">Local</h3>
+          <p class="mt-2 text-slate-600">For parcels within the same city.</p>
+          <p class="mt-6 text-4xl font-extrabold text-slate-900">$500<span class="text-base font-medium text-slate-500"> /delivery</span></p>
+          <ul class="mt-6 space-y-3 text-slate-600">
+            <li>Same-day delivery</li>
+            <li>Live tracking</li>
+            <li>Delivery photo confirmation</li>
+          </ul>
+          <a href="#quote" class="mt-8 block rounded-xl border border-brand-600 px-5 py-3 text-center font-semibold text-brand-600 transition hover:bg-brand-50">Choose Local</a>
+        </div>
+
+        <div class="relative rounded-3xl border-2 border-brand-600 bg-white p-8 shadow-xl">
+          <span class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-brand-600 px-4 py-1 text-xs font-bold text-white">Most popular</span>
+          <h3 class="text-lg font-bold text-slate-900">Interstate</h3>
+          <p class="mt-2 text-slate-600">For shipments across states.</p>
+          <p class="mt-6 text-4xl font-extrabold text-slate-900">$200<span class="text-base font-medium text-slate-500"> /delivery</span></p>
+          <ul class="mt-6 space-y-3 text-slate-600">
+            <li>Next-day delivery options</li>
+            <li>Insurance included</li>
+            <li>Priority handling</li>
+            <li>SMS and email updates</li>
+          </ul>
+          <a href="#quote" class="mt-8 block rounded-xl bg-brand-600 px-5 py-3 text-center font-semibold text-white transition hover:bg-brand-700">Choose Interstate</a>
+        </div>
+
+        <div class="rounded-3xl border border-slate-200 bg-white p-8">
+          <h3 class="text-lg font-bold text-slate-900">Business</h3>
+          <p class="mt-2 text-slate-600">For high-volume shipping needs.</p>
+          <p class="mt-6 text-4xl font-extrabold text-slate-900">Custom</p>
+          <ul class="mt-6 space-y-3 text-slate-600">
+            <li>Dedicated account manager</li>
+            <li>Bulk dispatch dashboard</li>
+            <li>API and webhook integration</li>
+            <li>Monthly invoicing</li>
+          </ul>
+          <a href="#contact" class="mt-8 block rounded-xl border border-brand-600 px-5 py-3 text-center font-semibold text-brand-600 transition hover:bg-brand-50">Talk to sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote / CTA -->
+  <section id="quote" class="bg-white py-20">
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div class="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 to-brand-900 p-8 sm:p-12">
+        <div class="grid gap-10 lg:grid-cols-2">
+          <div class="text-white">
+            <h2 class="text-3xl font-extrabold sm:text-4xl">Get an instant delivery quote</h2>
+            <p class="mt-4 text-brand-100">Tell us where your parcel is going and we will calculate the best delivery option for you.</p>
+            <ul class="mt-8 space-y-3 text-brand-50">
+              <li>• Fast pickup scheduling</li>
+              <li>• Secure parcel handling</li>
+              <li>• Real-time tracking</li>
+            </ul>
+          </div>
+
+          <form id="quote-form" class="rounded-2xl bg-white p-6 shadow-xl">
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="text-sm font-semibold text-slate-700">Pickup city</label>
+                <input id="pickup-city" type="text" placeholder="Windsor, ON N8T 1J9 Canada" class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100" />
+              </div>
+              <div>
+                <label class="text-sm font-semibold text-slate-700">Destination city</label>
+                <input id="destination-city" type="text" placeholder="Mountain View, CA 94040, United States" class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100" />
+              </div>
+              <div>
+                <label class="text-sm font-semibold text-slate-700">Parcel weight</label>
+                <input id="parcel-weight" type="text" placeholder="in kg" class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100" />
+              </div>
+              <div>
+                <label class="text-sm font-semibold text-slate-700">Service type</label>
+                <select id="service-type" class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
+                  <option>Same-day</option>
+                  <option>Next-day</option>
+                  <option>Interstate</option>
+                  <option>Business logistics</option>
+                </select>
+              </div>
+            </div>
+            <!-- <button id="quoteButton" class="mt-6 w-full rounded-xl bg-brand-600 px-6 py-4 font-semibold text-white transition hover:bg-brand-700">
+              Calculate quote
+            </button> -->
+
+            <button
+                id="quote-button"
+                type="submit"
+                class="mt-6 w-full inline-flex items-center justify-center gap-3 rounded-xl bg-brand-600 px-6 py-4 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                <svg
+                    id="quote-spinner"
+                    class="hidden h-5 w-5 animate-spin"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                    />
+                    <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    />
+                </svg>
+
+                <span id="quote-button-text">Calculate quote</span>
+                </button>
+
+          </form>
+
+          <div
+            id="quote-result"
+            class="mt-6 hidden rounded-2xl border border-emerald-200 bg-emerald-50 p-5"
+            >
+            <p class="text-sm font-semibold text-emerald-700">Estimated quote</p>
+            <p id="quote-price" class="mt-1 text-3xl font-extrabold text-emerald-800"></p>
+            <p id="quote-details" class="mt-2 text-sm text-emerald-700"></p>
+
+            <div class="mt-6 border-t border-emerald-200 pt-5">
+                <p class="text-sm text-emerald-700">
+                Ready to send this parcel?
+                </p>
+
+                <button
+                id="book-delivery-button"
+                type="button"
+                class="mt-3 w-full rounded-xl bg-brand-600 px-6 py-4 font-semibold text-white transition hover:bg-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+                >
+                Book this delivery
+                </button>
+
+                <p class="mt-3 text-center text-xs text-emerald-700">
+                You will enter sender, receiver, and pickup details next.
+                </p>
+            </div>
+
+           </div>
+
+            <div
+                id="quote-error"
+                class="mt-4 hidden rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700"
+                >
+           </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-10 rounded-3xl border border-slate-200 bg-white p-8 sm:p-12 lg:grid-cols-2">
+        <div>
+          <h2 class="text-3xl font-extrabold text-slate-900">Need help with a shipment?</h2>
+          <p class="mt-4 text-slate-600">Our support team is available 24/7 for pickup requests, delivery issues, and business inquiries.</p>
+
+          <div class="mt-8 space-y-4">
+            <p class="flex items-center gap-3 text-slate-700">
+              <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600">✉️</span>
+              support@easygo.com
+            </p>
+            <p class="flex items-center gap-3 text-slate-700">
+              <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600">📞</span>
+              +234 800 000 0000
+            </p>
+            <p class="flex items-center gap-3 text-slate-700">
+              <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600">📍</span>
+              595 Market St, San Francisco, CA 94105
+            </p>
+          </div>
+        </div>
+
+        <form id="contact-form" class="space-y-4">
+            <input
+                id="contact-name"
+                type="text"
+                placeholder="Full name"
+                class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+            />
+
+            <input
+                id="contact-email"
+                type="email"
+                placeholder="Email address"
+                class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+            />
+
+            <textarea
+                id="contact-message"
+                rows="4"
+                placeholder="How can we help?"
+                class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+            ></textarea>
+
+            <button
+                id="contact-submit-button"
+                type="submit"
+                class="w-full inline-flex items-center justify-center gap-3 rounded-xl bg-brand-600 px-6 py-4 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+                <svg
+                id="contact-spinner"
+                class="hidden h-5 w-5 animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                >
+                <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                />
+                <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                />
+                </svg>
+
+                <span id="contact-button-text">Send message</span>
+            </button>
+
+            <p
+                id="contact-success"
+                class="hidden rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-700"
+            ></p>
+
+            <p
+                id="contact-error"
+                class="hidden rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700"
+            ></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 py-12 text-slate-400">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+        <div class="flex items-center gap-2">
+          <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-white">⚡</span>
+          <span class="text-lg font-bold text-white">EasyGo Express</span>
+        </div>
+        <p class="text-sm">© 2026 EasyGo Courier. All rights reserved.</p>
+        <div class="flex gap-6 text-sm">
+          <a href="#" class="hover:text-white">Privacy</a>
+          <a href="#" class="hover:text-white">Terms</a>
+          <a href="#" class="hover:text-white">Support</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    const GEOAPIFY_MAP_KEY = "eeec958901e54200bea7a6cf5d63dc2a";
+
+    const form = document.getElementById('tracking-form');
+    const input = document.getElementById('tracking-input');
+    const result = document.getElementById('tracking-result');
+    const error = document.getElementById('tracking-error');
+    const closeBtn = document.getElementById('close-tracking');
+    const quoteForm = document.getElementById('quote-form');
+
+    const quoteButton = document.getElementById("quote-button");
+    const quoteButtonText = document.getElementById("quote-button-text");
+    const quoteSpinner = document.getElementById("quote-spinner");
+    const quoteResult = document.getElementById("quote-result");
+    const quoteError = document.getElementById("quote-error");
+    const bookDeliveryButton = document.getElementById("book-delivery-button");
+
+    let currentQuote = null;
+
+    function timeSince(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        
+        // Calculate the difference in seconds
+        const secondsPast = Math.floor((now - date) / 1000);
+
+        // Define time intervals in seconds
+        const intervals = {
+            year: 31536000,
+            month: 2592000,
+            week: 604800,
+            day: 86400,
+            hour: 3600,
+            minute: 60,
+            second: 1
+        };
+
+        // Find the largest matching interval
+        for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+            if (secondsPast >= secondsInUnit || unit === 'second') {
+            const count = Math.floor(secondsPast / secondsInUnit);
+            
+            // Use the built-in RelativeTimeFormat API for perfect localization/pluralization
+            const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+            return rtf.format(-count, unit);
+            }
+        }
+    }
+
+    function setLoading(isLoading) {
+        quoteButton.disabled = isLoading;
+        quoteButton.setAttribute("aria-busy", isLoading ? "true" : "false");
+
+        quoteSpinner.classList.toggle("hidden", !isLoading);
+        quoteButtonText.textContent = isLoading
+            ? "Calculating quote..."
+            : "Calculate quote";
+    }
+
+    function hideMessages() {
+        quoteResult.classList.add("hidden");
+        quoteError.classList.add("hidden");
+    }
+
+    // function formatDuration(totalMinutes) {
+    //     const hours = Math.floor(totalMinutes / 60);
+    //     const minutes = Math.round(totalMinutes % 60);
+
+    //     if (hours === 0) {
+    //         return `${minutes} minute${minutes === 1 ? "" : "s"}`;
+    //     }
+
+    //     if (minutes === 0) {
+    //         return `${hours} hour${hours === 1 ? "" : "s"}`;
+    //     }
+
+    //     return `${hours} hour${hours === 1 ? "" : "s"} ${minutes} minute${minutes === 1 ? "" : "s"}`;
+    // }
+
+    function formatDuration(totalMinutes) {
+        const minutes = Math.round(totalMinutes);
+        const days = Math.ceil(minutes / (60 * 24));
+
+        if (days < 2) {
+            const hours = Math.floor(minutes / 60);
+            const remainingMinutes = minutes % 60;
+
+            if (hours < 1) {
+            return `${minutes} minutes`;
+            }
+
+            return `${hours} hour${hours === 1 ? "" : "s"}${
+            remainingMinutes ? ` ${remainingMinutes} minutes` : ""
+            }`;
+        }
+
+        return `About ${days} day${days === 1 ? "" : "s"}`;
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const trackingNumber = input.value.trim().toUpperCase();
+
+      if (!trackingNumber) {
+        error.classList.remove('hidden');
+        result.classList.add('hidden');
+        return;
+      }
+
+      error.classList.add('hidden');
+      document.getElementById('result-number').textContent = trackingNumber;
+      result.classList.remove('hidden');
+      result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      initializeShipmentMap(9.0765, 7.3986);
+
+      document.getElementById("shipment-location-text").textContent =
+      "Latest known location: Abuja, Nigeria";
+
+      fetch(`/api/shipments/${encodeURIComponent(trackingNumber)}/`)
+        .then(response => {
+            console.log(response);
+            if (!response.ok) {
+            throw new Error("Shipment not found");
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("result-number").textContent = data.tracking_number;
+            document.getElementById("result-status").textContent = data.status;
+
+            document.getElementById("result-sender").textContent = data.sender;
+            document.getElementById("result-destination").textContent = data.destination;
+            document.getElementById("result-eta").textContent = formatDuration(data.estimated_arrival);
+
+            document.getElementById("result-progress-text").textContent = data.progress + "%";
+            document.getElementById("result-progress-bar").style.width = data.progress + "%";
+
+            const timelineContainer = document.getElementById("result-timeline");
+            timelineContainer.innerHTML = "";
+
+            data.events.forEach(function (event, index) {
+            // const eventHTML = `
+            //     <div class="flex items-start gap-4">
+            //     <span class="mt-1 h-3 w-3 rounded-full bg-emerald-500"></span>
+            //     <div>
+            //         <p class="font-semibold text-slate-900">${event.title}</p>
+            //         <p class="text-sm text-slate-500">${event.location} — ${event.time}</p>
+            //     </div>
+            //     </div>
+            // `;
+
+            // timelineContainer.insertAdjacentHTML("beforeend", eventHTML);
+
+            const isLastEvent = index === data.events.length - 1;
+            const isDelivered = data.status.toLowerCase() === "delivered";
+
+            let dotColor = "bg-slate-300";
+            let textOpacity = "opacity-50";
+
+            if (event.completed) {
+                dotColor = "bg-emerald-500";
+                textOpacity = "opacity-100";
+            }
+
+            if (isLastEvent && !isDelivered) {
+                dotColor = "bg-brand-600";
+                textOpacity = "opacity-100";
+            }
+
+            if (isDelivered) {
+                dotColor = "bg-emerald-500";
+                textOpacity = "opacity-100";
+            }
+
+            const eventHTML = `
+                <div class="flex items-start gap-4 ${textOpacity}">
+                <span class="mt-1 h-3 w-3 rounded-full ${dotColor}"></span>
+                <div>
+                    <p class="font-semibold text-slate-900">${event.title}</p>
+                    <p class="text-sm text-slate-500">${event.location} — ${timeSince(event.time)}</p>
+                </div>
+                </div>
+            `;
+
+            timelineContainer.insertAdjacentHTML("beforeend", eventHTML);
+
+            });
+
+            const location = data.current_location;
+
+            if (
+                location &&
+                location.latitude !== null &&
+                location.longitude !== null
+            ) {
+                updateShipmentMap(
+                location.latitude,
+                location.longitude,
+                location.name || "Current shipment location"
+                );
+
+                document.getElementById("shipment-location-text").textContent =
+                location.name
+                    ? `Latest known location: ${location.name}`
+                    : "Latest known location updated by EasyGo Express.";
+            } else {
+                document.getElementById("shipment-location-text").textContent =
+                "No current location has been added for this shipment yet.";
+            }
+
+
+        })
+        .catch((err) => {
+            console.log(err);
+            error.textContent = "Shipment not found. Please check the tracking number.";
+            error.classList.remove("hidden");
+            result.classList.add("hidden");
+        });
+
+    });
+
+    quoteForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const pickupCity = document.getElementById("pickup-city").value.trim();
+        const destinationCity = document.getElementById("destination-city").value.trim();
+        const weightKg = document.getElementById("parcel-weight").value;
+        const serviceType = document.getElementById("service-type").value;
+    //   alert('Quote calculation is not implemented in this demo.');
+        
+        console.log(pickupCity);
+        console.log(destinationCity);
+        console.log(weightKg);
+        console.log(serviceType);
+
+        if (!pickupCity || !destinationCity || !weightKg) {
+            quoteError.textContent = "Please complete all quote fields.";
+            quoteError.classList.remove("hidden");
+            quoteResult.classList.add("hidden");
+            return;
+        }
+
+        hideMessages();
+        setLoading(true);
+
+        try{
+            const response = await fetch('/api/quotes/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                    pickup_city: pickupCity,
+                    destination_city: destinationCity,
+                    parcel_weight: Number(weightKg),
+                    service_type: serviceType,
+                })
+            })
+    
+            const data = await response.json();
+            console.log(data);
+    
+            if (!response.ok) {
+                throw new Error(data.error || data.non_field_errors[0] || "Unable to calculate the quote.");
+            }
+
+            currentQuote = {
+                pickup_address: pickupCity,
+                destination_address: destinationCity,
+                weight_kg: Number(weightKg),
+                service_type: serviceType,
+                distance_km: data.distance_km,
+                estimated_price: data.estimated_price,
+                estimated_delivery_time_minutes: data.estimated_delivery_time_minutes,
+            };
+
+            document.getElementById("quote-price").textContent =
+            `$${Number(data.estimated_price).toLocaleString()}`;
+
+            // document.getElementById("quote-details").textContent =
+            // `${data.distance_km} km • about ${Math.round(data.estimated_delivery_time_minutes)} minutes driving`;
+
+            document.getElementById("quote-details").textContent =
+            `${data.distance_km} km • estimated arrival time: ${formatDuration(
+                data.estimated_delivery_time_minutes
+            )}`;
+
+            quoteResult.classList.remove("hidden");
+
+        }
+        catch (error) {
+            quoteError.textContent = error.message;
+            quoteError.classList.remove("hidden");
+            quoteResult.classList.add("hidden");
+        } finally {
+            setLoading(false);
+        }
+
+        // .then(response => response.json())
+        // .then(data => {
+        //     alert(`Estimated quote: $${data.estimated_price}`);
+        // })
+        // .catch(error => {
+        //     console.error('Error:', error);
+        //     alert('Failed to calculate quote. Please try again later.');
+        // });
+    });
+
+
+    closeBtn.addEventListener('click', function () {
+      result.classList.add('hidden');
+    });
+
+
+    bookDeliveryButton.addEventListener("click", function () {
+        if (!currentQuote) {
+            return;
+        }
+
+        // Option 1: Go to a separate booking page
+        sessionStorage.setItem("easygo_quote", JSON.stringify(currentQuote));
+        window.location.href = "/booking/";
+
+        // Option 2: Show a booking form on the same page instead:
+        // document.getElementById("booking-section").classList.remove("hidden");
+        // document.getElementById("booking-section").scrollIntoView({
+        //   behavior: "smooth",
+        //   block: "start",
+        // });
+        });
+
+        
+        let shipmentMap = null;
+        let shipmentMarker = null;
+
+        function initializeShipmentMap(latitude, longitude) {
+        const mapElement = document.getElementById("shipment-map");
+
+        if (!mapElement || shipmentMap) {
+            return;
+        }
+
+        shipmentMap = L.map("shipment-map").setView(
+            [latitude, longitude],
+            13
+        );
+
+        const isRetina = L.Browser.retina;
+
+        const tileUrl = isRetina
+        ? "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}@2x.png?apiKey={apiKey}"
+        : "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey={apiKey}";
+
+        L.tileLayer(tileUrl, {
+        apiKey: GEOAPIFY_MAP_KEY,
+        maxZoom: 20,
+        attribution:
+            'Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | © OpenStreetMap <a href="https://www.openstreetmap.org/copyright" target="_blank">contributors</a>',
+        }).addTo(shipmentMap);
+
+        shipmentMarker = L.marker([latitude, longitude])
+            .addTo(shipmentMap)
+            .bindPopup("Current shipment location")
+            .openPopup();
+        }
+
+        function updateShipmentMap(latitude, longitude, locationName) {
+        const position = [latitude, longitude];
+
+        if (!shipmentMap) {
+            initializeShipmentMap(latitude, longitude);
+            return;
+        }
+
+        shipmentMarker.setLatLng(position);
+        shipmentMarker
+            .getPopup()
+            .setContent(locationName || "Current shipment location");
+
+        shipmentMap.setView(position, 13);
+        }
+
+
+        const contactForm = document.getElementById("contact-form");
+        const contactButton = document.getElementById("contact-submit-button");
+        const contactButtonText = document.getElementById("contact-button-text");
+        const contactSpinner = document.getElementById("contact-spinner");
+        const contactSuccess = document.getElementById("contact-success");
+        const contactError = document.getElementById("contact-error");
+
+        function setContactLoading(isLoading) {
+        contactButton.disabled = isLoading;
+        contactButton.setAttribute("aria-busy", isLoading ? "true" : "false");
+
+        contactSpinner.classList.toggle("hidden", !isLoading);
+        contactButtonText.textContent = isLoading
+            ? "Sending..."
+            : "Send message";
+        }
+
+        contactForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("contact-name").value.trim();
+        const email = document.getElementById("contact-email").value.trim();
+        const message = document.getElementById("contact-message").value.trim();
+
+        contactSuccess.classList.add("hidden");
+        contactError.classList.add("hidden");
+
+        if (!name || !email || !message) {
+            contactError.textContent = "Please complete all fields.";
+            contactError.classList.remove("hidden");
+            return;
+        }
+
+        setContactLoading(true);
+
+        try {
+            const response = await fetch("/api/contact/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify({ name, email, message }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+            throw new Error(
+                data.error || "Unable to send your message. Please try again."
+            );
+            }
+
+            contactSuccess.textContent = data.message;
+            contactSuccess.classList.remove("hidden");
+
+            contactForm.reset();
+        } catch (error) {
+            contactError.textContent = error.message;
+            contactError.classList.remove("hidden");
+        } finally {
+            setContactLoading(false);
+        }
+    });
+
+
+  </script>
+
+  <!-- Start of HubSpot Embed Code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/149642386.js"></script>
+<!-- End of HubSpot Embed Code -->
+
+</body>
+</html>

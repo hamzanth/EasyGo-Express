@@ -30,6 +30,26 @@ urlpatterns = [
     path("admin-login", AdminLogin.as_view(), name="admin-login"),
     path("read1", Read1.as_view(), name="read1"),
     path("read2", Read2.as_view(), name="read2"),
+    path("api/shipments/<str:tracking_number>/", ShipmentTrackingView.as_view()),
+    path("api/quotes/", GetQuoteView.as_view()),
+    path("api/bookings/", CreateBookingAPIView.as_view()),
    	path("shipping/", include("courier.urls")),
+    path("booking/", BookingView.as_view(), name="booking"),
+    path("booking/<int:booking_id>/payment/", BookingPaymentView.as_view(), name="booking_payment"),
+    path(
+        "api/contact/",
+        ContactMessageView.as_view(),
+        name="contact-message",
+    ),
+    path(
+        "location/coordinates/",
+        Cordinate.as_view(),
+        name="coordinates",
+    ),
+    path(
+        "api/bookings/location/",
+        UpdateShipmentLocationView.as_view(),
+        name="update-shipment-location",
+    ),
    	# path("accounts/", include("accounts.urls")),
 ]
