@@ -514,7 +514,7 @@ class ContactMessageView(APIView):
         return JsonResponse(
             {
                 "success": True,
-                "message": "Your message has been sent successfully.",
+                "message": "Your message has been sent successfully. We will contact via Email",
             },
             status=200,
         )

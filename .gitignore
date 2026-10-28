@@ -1,2 +1,12 @@
 db.sqlite3
 easygocourier/migrations/*.py
+.venv 
+.env 
+
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+*.log
